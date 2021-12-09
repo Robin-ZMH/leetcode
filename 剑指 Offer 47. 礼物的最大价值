@@ -1,0 +1,30 @@
+class Solution:
+    """树形dp"""
+    def maxValue(self, grid: List[List[int]]) -> int:
+        def process(grid, row, col, dp):
+            if row < 0 or row >= len(grid) or col < 0 or col >= len(grid[row]):
+                return 0
+            if (row, col) in dp:
+                return dp[(row, col)]
+            res = grid[row][col]
+            dp[(row, col)] = res + max(process(grid, row + 1, col, dp),
+                                       process(grid, row, col + 1, dp))
+            return dp[(row, col)]
+
+        dp = dict()
+        return process(grid, 0, 0, dp)
+
+
+
+
+class Solution:
+    """动态规划"""
+    def maxValue(self, grid: List[List[int]]) -> int:
+        # 二维动态规划
+        dp = [[0 for _ in range(len(grid[0]) + 1)] for _ in range(len(grid) + 1)]
+        # 注意，要求解的结果是 dp[0][0], 所以倒序填满数组
+        for row in range(len(dp) - 2, -1, -1):
+            for col in range(len(dp[row]) - 2, -1, -1):
+                print(row, col)
+                dp[row][col] = max(dp[row + 1][col], dp[row][col + 1]) + grid[row][col]
+        return dp[0][0]
