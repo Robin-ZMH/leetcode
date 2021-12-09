@@ -11,11 +11,11 @@ class Solution:
                     (cur_m // 100 + cur_m // 10 + cur_m % 10 +
                      cur_n // 100 + cur_n // 10 + cur_n % 10) > k
             ):
-                # 如果当前位置位数和大于k，返回0
+                # 如果当前位置的位数和大于k，返回0
                 return 0
 
             if (cur_m, cur_n) in visited:
-                # 如果当前位置过去曾经来过，返回0
+                # 如果当前位置曾经来过，返回0
                 return 0
 
                 # 只要当前的格子合法，返回1+后续所有可能状态的格子数
@@ -27,6 +27,9 @@ class Solution:
 
         visited = set()
         return process(m, n, k, 0, 0)
+
+
+
 
     """动态规划, 时间复杂度O(mn), 空间复杂度O(mn)"""
     def movingCount(self, m: int, n: int, k: int) -> int:
@@ -41,6 +44,10 @@ class Solution:
                     if ((i - 1, j) in visited) or ((i, j - 1) in visited):
                         visited.add((i, j))
         return len(visited)
+
+
+
+
 
     """一维状态压缩, 时间复杂度O(mn), 空间复杂度O(n)"""
     def movingCount(self, m: int, n: int, k: int) -> int:
