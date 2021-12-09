@@ -1,0 +1,75 @@
+class Solution:
+    """暴力递归"""
+    def translateNum(self, num: int) -> int:
+        # 如果当前还剩一位数，说明这种分法可行，直接返回1
+        if num < 10:
+            return 1
+        num = str(num)
+        res1 = self.translateNum(int(num[1:]))
+        res2 = 0
+        # 判断前两位是否大于25
+        if int(num[0:2]) <= 25:
+            # 如果大于两位
+            if len(num) > 2:
+                res2 = self.translateNum(int(num[2:]))
+            # 只有两位
+            else:
+                res2 = 1
+        return res1 + res2
+
+
+class Solution:
+    """树形dp"""
+    def translateNum(self, num: int) -> int:
+        def process(num, dp):
+            # 如果当前还剩一位数，说明这种分法可行，直接返回1
+            if num < 10:
+                return 1
+            if num in dp:
+                return dp[num]
+            num = str(num)
+            res1 = self.translateNum(int(num[1:]))
+            res2 = 0
+            # 判断前两位是否大于25
+            if int(num[0:2]) <= 25:
+                # 如果大于两位
+                if len(num) > 2:
+                    res2 = self.translateNum(int(num[2:]))
+                # 只有两位
+                else:
+                    res2 = 1
+            dp[num] = res1 + res2
+            return dp[num]
+        dp = dict()
+        return process(num, dp)
+
+
+class Solution:
+    """动态规划"""
+    def translateNum(self, num: int) -> int:
+        num = str(num)
+        dp = [0 for _ in range(len(num) + 1)]
+        dp[0] = 1
+        dp[1] = 1
+        for i in range(2, len(dp)):
+            res1 = dp[i-1]
+            res2 = 0
+            if 9 < int(num[i-2: i]) < 26:
+                res2 = dp[i-2]
+            dp[i] = res1 + res2
+        return dp[-1]
+
+
+class Solution:
+    """状态压缩"""
+    def translateNum(self, num: int) -> int:
+        num = str(num)
+        res = 1
+        pre = 1
+        for i in range(1, len(num)):
+            if 9 < int(num[i-1: i+1]) < 26:
+                # res相当于前一项，pre相当于前两项
+                res, pre = res + pre, res
+            else:
+                res, pre = res, res
+        return res
