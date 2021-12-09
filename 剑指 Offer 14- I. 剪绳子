@@ -1,0 +1,37 @@
+class Solution:
+    """树形dp"""
+    def cuttingRope(self, n: int) -> int:
+        # process的含义：返回剩余长度为n的绳子中，所有切法的最大乘积
+        def process(n,dp):
+            if n == 1 :
+                return 1
+            if n in dp:
+                return dp[n]
+            res = -1
+            for i in range(1, n):
+                # 因为从1开始遍历，所以一定会切一刀，但是这会遗漏不切刀的情况
+                # 选择再第i位置切一刀，切完后有两种选择，要么就此结束，要么继续切下去
+                res = max(res, i * process(n-i, dp), i * (n-i))
+            dp[n] = res
+            return dp[n]
+        # 定义用于保存状态信息的dp字典
+        dp = dict()
+        return process(n,dp)
+        
+        
+        
+class Solution:
+    """动态规划"""
+    def cuttingRope(self, n: int) -> int:
+        # 设置dp数组
+        dp = [0 for _ in range(n+1)]
+        # 根据递归函数初始化base case
+        dp[1] = 1
+        # 填满dp数组
+        for residual in range(1, len(dp)):
+            res = 0
+            # 为了获得当前dp[i]，需要遍历所有可能的切法
+            for i in range(residual):
+                res = max(res, i * dp[residual-i], i * (residual-i))
+            dp[residual] = res
+        return res
