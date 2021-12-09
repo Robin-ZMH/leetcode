@@ -1,0 +1,72 @@
+class Solution:
+    """树形dp 时间复杂度O(mn), 空间复杂度O(mn)"""
+    def movingCount(self, m: int, n: int, k: int) -> int:
+        def process(m, n, k, cur_m, cur_n):
+            # base case
+            if cur_m < 0 or cur_m >= m or cur_n < 0 or cur_n >= n:
+                # 如果当前位置越界返回0
+                return 0
+
+            if (
+                    (cur_m // 100 + cur_m // 10 + cur_m % 10 +
+                     cur_n // 100 + cur_n // 10 + cur_n % 10) > k
+            ):
+                # 如果当前位置位数和大于k，返回0
+                return 0
+
+            if (cur_m, cur_n) in visited:
+                # 如果当前位置过去曾经来过，返回0
+                return 0
+
+                # 只要当前的格子合法，返回1+后续所有可能状态的格子数
+            visited.add((cur_m, cur_n))
+            return 1 + (process(m, n, k, cur_m + 1, cur_n)
+                        + process(m, n, k, cur_m - 1, cur_n)
+                        + process(m, n, k, cur_m, cur_n + 1)
+                        + process(m, n, k, cur_m, cur_n - 1))
+
+        visited = set()
+        return process(m, n, k, 0, 0)
+
+    """动态规划, 时间复杂度O(mn), 空间复杂度O(mn)"""
+    def movingCount(self, m: int, n: int, k: int) -> int:
+        visited = set()
+        visited.add((0, 0))
+        for i in range(m):
+            for j in range(n):
+                # 先判断是否满足数位和小于等于k
+                if (i // 100 + i // 10 + i % 10) + (j // 100 + j // 10 + j % 10) <= k:
+                    # 再判断当前位置是否可由过去状态到达
+                    # 机器人可由  正上方  或者  左侧  到达
+                    if ((i - 1, j) in visited) or ((i, j - 1) in visited):
+                        visited.add((i, j))
+        return len(visited)
+
+    """一维状态压缩, 时间复杂度O(mn), 空间复杂度O(n)"""
+    def movingCount(self, m: int, n: int, k: int) -> int:
+        res = 0
+        # 初始化 up数组 和 left指针
+        up = [False for _ in range(n)]
+        for i in range(n):
+            if i <= k:
+                up[i] = True
+        left = False
+        # 迭代
+        for i in range(m):
+            for j in range(n):
+                # 先判断是否满足数位和小于等于k
+                if (i // 100 + i // 10 + i % 10) + (j // 100 + j // 10 + j % 10) <= k:
+                    # 再判断当前位置是否可由过去状态到达，如果可以，将left和up[j]置为True
+                    # 机器人可由  正上方  或者  左侧  到达
+                    if up[j] or left:
+                        res += 1
+                        left = True
+                        up[j] = True
+                    else:
+                        # 如果不可以，将left和up[j]置为False
+                        left = False
+                        up[j] = False
+                else:
+                    left = False
+                    up[j] = False
+        return res
