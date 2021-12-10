@@ -1,0 +1,11 @@
+class Solution:
+    """贪心算法"""
+    def maxProfit(self, prices: List[int]) -> int:
+        lowest= 0
+        res = 0
+        for day in range(1, len(prices)):
+            if prices[day] < prices[lowest]:
+                lowest = day
+                continue
+            res = max(res, prices[day] - prices[lowest])
+        return res
