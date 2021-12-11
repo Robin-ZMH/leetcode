@@ -1,0 +1,32 @@
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        def findSurrounded(board, row, col):
+            """如果当前格子是O，将其坐标放入集合res中"""
+            if row == 0 or row == length or col == 0 or col == height:
+                if board[row][col] == 'O':
+                    # 如果查找到边界为O，那么与其相连的都不是被包围的，将flag设为false
+                    flag.append('False')
+                return
+            if (row, col) in res:
+                return
+            if board[row][col] == 'O':
+                res.add((row, col))
+                findSurrounded(board, row-1, col)
+                findSurrounded(board, row+1, col)
+                findSurrounded(board, row, col-1)
+                findSurrounded(board, row, col+1)
+
+        length = len(board) - 1
+        height = len(board[0]) - 1
+        for row in range(1, length):
+            for col in range(1, height):
+                res = set()
+                flag = []
+                if board[row][col] == 'O':
+                    findSurrounded(board, row, col)
+                    if not flag:
+                        for (x, y) in res:
+                            board[x][y] = 'X'
