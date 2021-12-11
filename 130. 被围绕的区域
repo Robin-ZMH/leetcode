@@ -1,8 +1,6 @@
 class Solution:
-    def solve(self, board: List[List[str]]) -> None:
-        """
-        Do not return anything, modify board in-place instead.
-        """
+    """DFS"""
+    def solve(self, board: List[List[str]]) -> None:  
         def findSurrounded(board, row, col):
             """如果当前格子是O，将其坐标放入集合res中"""
             if row == 0 or row == length or col == 0 or col == height:
