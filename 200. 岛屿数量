@@ -1,0 +1,22 @@
+class Solution:
+    """DFS"""
+    def numIslands(self, grid: List[List[str]]) -> int:
+        def method(grid, row, col):
+            if row < 0 or row >= length or col < 0 or col >= height:
+                return 
+            if grid[row][col] == '1':
+                grid[row][col] = '0'
+                setZero(grid, row-1, col)
+                setZero(grid, row+1, col)
+                setZero(grid, row, col-1)
+                setZero(grid, row, col+1)
+
+        res = 0
+        length = len(grid) 
+        height = len(grid[0]) 
+        for row in range(length):
+            for col in range(height):
+                if grid[row][col] == '1':
+                    res += 1
+                    setZero(grid, row, col)
+        return res
