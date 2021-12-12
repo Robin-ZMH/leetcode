@@ -1,0 +1,35 @@
+class Solution:
+    # 回溯
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        def process(start, track):
+            if len(track) == k:
+                res.append(track[: ])
+                return
+            for num in range(start, n+1):
+                # if len(track) + n-num+1 < k:
+                    # return
+                track.append(num)
+                process(num+1, track)
+                track.pop()
+        res = []
+        process(1, [])
+        return res
+
+
+
+class Solution:
+    # 回溯加剪枝
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        def process(start, track):
+            if len(track) == k:
+                res.append(track[: ])
+                return
+            for num in range(start, n+1):
+                if len(track) + n-num+1 < k:
+                    return
+                track.append(num)
+                process(num+1, track)
+                track.pop()
+        res = []
+        process(1, [])
+        return res
