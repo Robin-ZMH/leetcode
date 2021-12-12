@@ -1,0 +1,36 @@
+class Solution:
+    # 回溯
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        def process(summation, start, track):
+            if len(track) == k:
+                if summation == n:
+                    res.append(track[:])
+                return
+            for num in range(start, 10):
+                # if summation + num > n:
+                    # return
+                track.append(num)
+                process(summation + num, num+1, track)
+                track.pop()
+        res = []
+        process(0, 1, [])
+        return res
+        
+        
+class Solution:
+    # 回溯加剪枝
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        def process(summation, start, track):
+            if len(track) == k:
+                if summation == n:
+                    res.append(track[:])
+                return
+            for num in range(start, 10):
+                if summation + num > n:
+                    return
+                track.append(num)
+                process(summation + num, num+1, track)
+                track.pop()
+        res = []
+        process(0, 1, [])
+        return res
