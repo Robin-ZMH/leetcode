@@ -1,0 +1,39 @@
+class Solution:
+    # 回溯法，利用set去重
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        def process(track, start):
+            res.append(track[: ])
+            if len(track) == len(nums):
+                return
+            hashset = set()
+            for i in range(start, len(nums)):
+                if nums[i] not in hashset:
+                    hashset.add(nums[i])
+                    track.append(nums[i])
+                    process(track, i+1)
+                    track.pop()
+        nums.sort()
+        res = []
+        process([], 0)
+        return res
+        
+
+class Solution:
+    # 回溯，不使用额外空间
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        def process(track, start):
+            res.append(track[: ])
+            if len(track) == len(nums):
+                return
+            for i in range(start, len(nums)):
+                # 因为下一节点从i+1开始，所以i == strat时，可以选择
+                # 当i > start后，要进行判断
+                if i > start and nums[i] == nums[i-1]: 
+                    continue
+                track.append(nums[i])
+                process(track, i+1)
+                track.pop()
+        nums.sort()
+        res = []
+        process([], 0)
+        return res
