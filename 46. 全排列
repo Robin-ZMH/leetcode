@@ -1,0 +1,33 @@
+class Solution:
+    # 回溯
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(nums,tmp_list):
+            if len(tmp_list) == len(nums):
+                res.append(tmp_list[:]) #注意，append只添加了tmp_list的地址，临时变量在函数结束时
+                return                  #会清零。
+            for i in nums:
+                if i in tmp_list:
+                    continue
+                tmp_list.append(i)
+                backtrack(nums,tmp_list)
+                tmp_list.pop()
+        res = []
+        backtrack(nums,[])
+        return res
+        
+        
+        
+class Solution:
+    # 最优复杂度，数组原地排序
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def process(start):
+            if start == len(nums):
+                res.append(nums[: ])
+                return
+            for i in range(start, len(nums)):
+                nums[i],nums[start] = nums[start],nums[i]
+                process(start+1)
+                nums[i],nums[start] = nums[start],nums[i]
+        res = []
+        process(0)
+        return res
