@@ -1,0 +1,14 @@
+class Solution:
+    # 回溯
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def process(track, start):
+            res.append(track[: ])
+            if len(track) == len(nums):
+                return
+            for i in range(start, len(nums)):
+                track.append(nums[i])
+                process(track, i+1)
+                track.pop()
+        res = []
+        process([], 0)
+        return res
