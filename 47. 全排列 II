@@ -1,0 +1,18 @@
+class Solution:
+    # 回溯
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(nums,track):
+            if not nums:
+                res.append(track[:])
+                return
+            for i in range(len(nums)):
+                if i > 0 and nums[i] == nums[i-1]:
+                    continue
+                track.append(nums[i])
+                # 利用列表拼接remove掉想要移除的数, 同时深拷贝
+                backtrack(nums[:i] + nums[i+1:],track)
+                track.pop()
+        nums.sort()
+        res = []
+        backtrack(nums,[])
+        return res
