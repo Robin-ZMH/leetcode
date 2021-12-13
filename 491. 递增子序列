@@ -1,0 +1,19 @@
+class Solution:
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        # 不能对原数组排序
+        def process(track, start):
+            if len(track) >= 2:
+                res.append(track[:])
+            if start == len(nums):
+                return
+            hashset = set()
+            for i in range(start, len(nums)):
+                if (track and nums[i] < track[-1]) or nums[i] in hashset:
+                    continue
+                hashset.add(nums[i])
+                track.append(nums[i])
+                process(track, i+1)
+                track.pop()
+        res = []
+        process([], 0)
+        return res
