@@ -1,0 +1,48 @@
+class Solution:
+    # 回溯
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        def process(sum_, track, start):
+            if sum_ == target:
+                res.append(track[:])
+                return
+            if sum_ > target:
+                return
+            for i, num in enumerate(candidates):
+                if i >= start:
+                    if i > start and num == candidates[i-1]:
+                        continue
+                    sum_ += num
+                    track.append(num)
+                    process(sum_, track, i+1)
+                    sum_ -= num
+                    track.pop()
+        candidates.sort()
+        res = []
+        process(0, [], 0)
+        return res
+
+
+class Solution:
+    # 回溯加剪枝
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        def process(sum_, track, start):
+            if sum_ == target:
+                res.append(track[:])
+                return
+            if sum_ > target:
+                return
+            for i, num in enumerate(candidates):
+                if i >= start:
+                    if i > start and num == candidates[i-1]:
+                        continue
+                    if sum_ + num > target:
+                        return
+                    sum_ += num
+                    track.append(num)
+                    process(sum_, track, i+1)
+                    sum_ -= num
+                    track.pop()
+        candidates.sort()
+        res = []
+        process(0, [], 0)
+        return res
