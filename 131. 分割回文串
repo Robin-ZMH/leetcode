@@ -1,0 +1,27 @@
+class Solution:
+    # 回溯
+    def partition(self, s: str) -> List[List[str]]:
+        # 判断s[start: i+1]是不是回文串
+        def isPalindrome(start, end):
+            # 双指针法
+            while start < end:
+                if s[start] != s[end]:
+                    return False
+                start += 1
+                end -= 1
+            return True
+        # 找出从s[start: ]的所有回文子串
+        def process(track, start):
+            if start >= len(s):
+                res.append(track[: ])
+                return
+            # 本层递归找出start为首的回文子串
+            for i in range(start, len(s)):
+                if isPalindrome(start, i):
+                    track.append(s[start: i+1])
+                    # 让后续递归去解决s[i+1: ]所有回文子串
+                    process(track, i+1)  
+                    track.pop()
+        res = []
+        process([], 0)
+        return res
