@@ -8,6 +8,7 @@ class Solution:
                 return
             hashset = set()
             for i in range(start, len(nums)):
+                # 先对树枝剪枝，再对同层剪枝
                 if (track and nums[i] < track[-1]) or nums[i] in hashset:
                     continue
                 hashset.add(nums[i])
