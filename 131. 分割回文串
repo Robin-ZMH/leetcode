@@ -25,3 +25,24 @@ class Solution:
         res = []
         process([], 0)
         return res
+        
+        
+        
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        # 找出从s[start: ]的所有回文子串
+        def process(track, start):
+            if start >= len(s):
+                res.append(track[: ])
+                return
+            # 本层递归找出start为首的回文子串
+            for i in range(start, len(s)):
+                tmp = s[start: i+1]
+                # 如果该字符串正反序相等，则是回文串
+                if tmp == tmp[: : -1]:
+                    track.append(s[start: i+1])
+                    process(track, i+1)  # 让后续递归去解决s[i+1: ]所有回文子串
+                    track.pop()
+        res = []
+        process([], 0)
+        return res
