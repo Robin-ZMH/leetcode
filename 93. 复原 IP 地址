@@ -1,0 +1,24 @@
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        def isValid(start, end):
+            if start > end:
+                return False
+            if s[start] == '0' and start != end:
+                return False
+            if not 0 <= int(s[start: end+1]) <= 255:
+                return False
+            return True
+
+        def process(track, start, pointNum):
+            if pointNum == 3:
+                # start可能越界
+                if isValid(start, len(s)-1):
+                    res.append(track + s[start:])
+                return
+            for i in range(start, len(s)):
+                if isValid(start, i):
+                    # 回溯时对字符串剪切太麻烦，直接将回溯写在递归中
+                    process(track + s[start: i+1] + '.', i+1, pointNum+1)
+        res = []
+        process('', 0, 0)
+        return res
