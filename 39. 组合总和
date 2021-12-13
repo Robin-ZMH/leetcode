@@ -1,0 +1,40 @@
+class Solution:
+    # 回溯
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        def process(track, start, summation):
+            if summation > target:
+                return
+            if summation == target:
+                res.append(track[:])
+                return
+            for i, num in enumerate(candidates):
+                if i >= start:
+                    summation += num
+                    track.append(num)
+                    process(track, i, summation)
+                    summation -= num
+                    track.pop()
+        res = []
+        process([], 0, 0)
+        return res
+        
+        
+class Solution:
+    # 回溯加剪枝
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        def process(track, start, summation):
+            if summation > target:
+                return
+            if summation == target:
+                res.append(track[:])
+                return
+            for i, num in enumerate(candidates):
+                if i >= start and summation+num <= target:
+                    summation += num
+                    track.append(num)
+                    process(track, i, summation)
+                    summation -= num
+                    track.pop()
+        res = []
+        process([], 0, 0)
+        return res
