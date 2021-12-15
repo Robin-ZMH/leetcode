@@ -1,0 +1,27 @@
+class Solution:
+    # 二分查找
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        res = []
+        left = 0
+        right = len(nums) - 1
+        # 找出等于target的最左端的位置
+        # [7,7,7,7,7] return 0
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] >= target:
+                right = mid - 1
+            elif nums[mid] < target:
+                left = mid + 1 
+        res.append(left)
+        left = 0
+        right = len(nums) - 1
+        # 找出等于target的最右端的位置
+        # [7,7,7,7,7] return 4
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] > target:
+                right = mid - 1
+            elif nums[mid] <= target:
+                left = mid + 1
+        res.append(right)
+        return res if res[0] <= res[1] else [-1, -1] 
