@@ -1,0 +1,17 @@
+class Solution:
+    # 滑动窗口
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        sum_ = 0
+        res = float('inf')
+        left = 0
+        for right in range(len(nums)):
+            # 窗口扩大时的操作
+            sum_ += nums[right]
+            # 窗口缩小时的操作
+            while (sum_ >= target):
+                # 缩小窗口前先保存必要信息
+                res = right - left + 1 if right - left + 1 < res else res
+                # 缩小窗口
+                sum_ -= nums[left]
+                left += 1
+        return 0 if math.isinf(res) else res
