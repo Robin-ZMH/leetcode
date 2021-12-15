@@ -1,0 +1,55 @@
+class Solution:
+    # 沿着对角线向中心推进，每次只完成一圈
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        # 定义 仅打印由左上角和右下角围成的正方形 这一圈数值 的函数:
+        def getEdge(a, b, c, d):
+            # 边界情况
+            # 到达中心时
+            if a == c and b == d:
+                res.append(matrix[a][b])
+                return
+            # 共行
+            elif a == c:
+                while b <= d:
+                    res.append(matrix[a][b])
+                    b += 1
+            # 共列
+            elif b == d:
+                while a <= c:
+                    res.append(matrix[a][b])
+                    a += 1
+            # 一般情况
+            row1, col1 = a, b
+            row2, col2 = c, d
+            while col1 < col2:
+                res.append(matrix[row1][col1])
+                col1 += 1
+                
+            row1, col1 = a, b
+            row2, col2 = c, d
+            while row1 < row2:
+                res.append(matrix[row1][col2])
+                row1 += 1
+                
+            row1, col1 = a, b
+            row2, col2 = c, d
+            while col2 > col1:
+                res.append(matrix[row2][col2])
+                col2 -= 1
+        
+            row1, col1 = a, b
+            row2, col2 = c, d
+            while row2 > row1:
+                res.append(matrix[row2][col1])
+                row2 -= 1
+            return
+        res = []
+        a, b, c, d = 0, 0, len(matrix)-1, len(matrix[0])-1
+        # 从两角向中心推进
+        while a <= c and b <= d:
+            getEdge(a, b, c, d)
+            a += 1
+            b += 1
+            c -= 1
+            d -= 1
+        return res
