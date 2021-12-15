@@ -1,0 +1,51 @@
+class Solution:
+    # 沿着对角线向中心推进，每次只完成一圈
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        # 定义要返回的二维列表
+        res = [[0 for _ in range(n)] for _ in range(n)]
+        # 定义 仅覆写由左上角和右下角围成的正方形 这一圈数值 的函数:
+        def generateEdge(left_top, right_bottom, cur_num):
+            # 边界情况，到达中心时
+            if left_top == right_bottom:
+                res[left_top][right_bottom] = cur_num
+                cur_num += 1
+                return cur_num
+            # 一般情况
+            row1, col1 = left_top, left_top
+            row2, col2 = right_bottom, right_bottom
+            while col1 < col2:
+                res[row1][col1] = cur_num
+                col1 += 1
+                cur_num += 1
+
+            row1, col1 = left_top, left_top
+            row2, col2 = right_bottom, right_bottom
+            while row1 < row2:
+                res[row1][col2] = cur_num
+                row1 += 1
+                cur_num += 1
+            
+            row1, col1 = left_top, left_top
+            row2, col2 = right_bottom, right_bottom
+            while col2 > col1:
+                res[row2][col2] = cur_num
+                col2 -= 1
+                cur_num += 1
+
+            row1, col1 = left_top, left_top
+            row2, col2 = right_bottom, right_bottom
+            while row2 > row1:
+                res[row2][col1] = cur_num
+                row2 -= 1
+                cur_num += 1
+            return cur_num
+        
+        left_top = 0
+        right_bottom = n-1
+        num = 1
+        # 从两角向中心推进
+        while left_top <= right_bottom:
+            num = generateEdge(left_top, right_bottom, num)
+            left_top += 1
+            right_bottom -= 1
+        return res
