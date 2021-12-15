@@ -1,0 +1,23 @@
+class Solution:
+    # 双指针法
+    def sortedSquares(self, nums: List[int]) -> List[int]:  
+        res = [-1 for _ in range(len(nums))]
+        left, right = 0, len(nums)-1
+        for i in range(len(res)-1, -1, -1):
+            leftNum = nums[left] ** 2
+            rightNum = nums[right] ** 2
+            if leftNum > rightNum:
+                res[i] = leftNum
+                left += 1
+            else:
+                res[i] = rightNum
+                right -= 1
+        return res
+
+
+class Solution:
+    # 原地排序
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        nums = list(map(lambda x:x ** 2,nums))
+        nums.sort()
+        return nums
