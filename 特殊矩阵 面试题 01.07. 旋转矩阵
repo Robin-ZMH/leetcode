@@ -1,0 +1,18 @@
+class Solution:
+    # 从两角向中心推进
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        # 定义旋转一层的函数
+        def rotateEdge(m, a, b):
+            for i in range(rightBottom-leftTop):
+                m[a][a+i], m[a+i][b], m[b][b-i], m[b-i][a] = m[b-i][a], m[a][a+i], m[a+i][b], m[b][b-i]
+            return
+
+        leftTop, rightBottom = 0, len(matrix)-1
+        # 从两角向中心推进
+        while leftTop <= rightBottom:
+            rotateEdge(matrix, leftTop, rightBottom)
+            leftTop += 1
+            rightBottom -= 1
