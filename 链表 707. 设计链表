@@ -1,0 +1,48 @@
+class Node:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class MyLinkedList:
+
+    def __init__(self):
+        self._head = Node(0)  # 虚拟头节点
+        self._size = 0
+
+    def get(self, index: int) -> int:
+        if index < 0 or index >= self._size:
+            return -1
+        cur = self._head
+        while index:
+            cur = cur.next
+            index -= 1
+        return cur.next.val
+
+    def addAtHead(self, val: int) -> None:
+        self.addAtIndex(0, val)
+
+    def addAtTail(self, val: int) -> None:
+        self.addAtIndex(self._size, val)
+
+    def addAtIndex(self, index: int, val: int) -> None:
+        if index > self._size:
+            return
+        if index < 0:
+            index = 0
+        node = Node(val)
+        cur = self._head
+        while index:
+            cur = cur.next
+            index -= 1
+        cur.next, node.next = node, cur.next
+        self._size += 1
+        
+    def deleteAtIndex(self, index: int) -> None:
+        if index < 0 or index >= self._size:
+            return
+        cur = self._head
+        while index:
+            cur = cur.next
+            index -= 1
+        cur.next = cur.next.next
+        self._size -= 1
