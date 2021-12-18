@@ -1,0 +1,11 @@
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        hashlist = [0] * 26
+        for letter in magazine:
+            hashlist[ord(letter) - ord('a')] += 1
+        for letter in ransomNote:
+            if hashlist[ord(letter) - ord('a')] > 0:
+                hashlist[ord(letter) - ord('a')] -= 1
+            else:
+                return False
+        return True
