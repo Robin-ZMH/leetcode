@@ -1,0 +1,20 @@
+class Solution:
+    def commonChars(self, words: List[str]) -> List[str]:
+        if not words:
+            return []
+        res = []
+        hashlist = [0] * 26
+        for letter in words[0]:
+            hashlist[ord(letter) - ord('a')] += 1
+        for i in range(len(words)):
+            hashlist2 = [0] * 26
+            for letter in words[i]:
+                hashlist2[ord(letter) - ord('a')] += 1
+            # 取两个hash表的最小值
+            for k in range(26):
+                hashlist[k] = min(hashlist[k],hashlist2[k])
+        for i in range(26):
+            while hashlist[i]:
+                res.append(chr(ord('a') + i))
+                hashlist[i] -= 1
+        return res
