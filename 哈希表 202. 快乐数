@@ -1,0 +1,19 @@
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        def getSum(n):
+            res = 0
+            while n:
+                res += (n % 10) ** 2
+                n = n // 10
+            return res
+
+        hashset = set()
+        while n:
+            sum_ = getSum(n)
+            if sum_ == 1:
+                return True
+            if sum_ in hashset:
+                return False
+            else:
+                hashset.add(sum_)
+                n = sum_
