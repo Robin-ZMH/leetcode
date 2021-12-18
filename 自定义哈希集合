@@ -1,0 +1,122 @@
+class Node:
+    """定义节点"""
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class LinkedList:
+    """定义链表"""
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.size = 0
+        self.iter = None
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.iter:
+            res = self.iter
+            self.iter = self.iter.next
+            return res.val
+        self.iter = self.head
+        raise StopIteration
+
+    def append(self, val):
+        cur = Node(val)
+        if self.head:
+            # 只需更新尾部指针
+            self.tail.next = cur
+            self.tail = cur
+            self.size += 1
+        else:
+            # 当前链表为空，更新头尾指针和iter指针
+            self.head = cur
+            self.tail = cur
+            self.size += 1
+            self.iter = self.head
+        return self.size
+
+    def findNode(self, val):
+        # 如果val的节点存在，返回True，否则返回False
+        self.iter = self.head
+        for data in self:
+            if data == val:
+                return True
+        return False
+
+    def delete(self, val):
+        # 如果节点存在，返回被删除节点的index，否则返回None
+        fake_head = Node(next=self.head)
+        cur = fake_head
+        index = 0
+        while cur and cur.next:
+            if cur.next.val == val:
+                # if deleting node is tail, refresh tail
+                self.tail = cur if cur.next == self.tail else self.tail
+                # delete cur.next
+                cur.next = cur.next.next
+                # refresh head
+                self.head = fake_head.next
+                return index
+            cur = cur.next
+            index += 1
+        return None
+
+    def print(self, end=', '):
+        # 打印当前链表
+        self.iter = self.head
+        for val in self:
+            print(f'value={val}', end=end)
+        print()
+
+
+class Hashset:
+    """定义哈希集合"""
+    def __init__(self, size=100):
+        self.size = size
+        self.list = [LinkedList() for _ in range(size)]
+
+    def hash(self, key):
+        # 定义对当前key取模的操作为hash函数
+        return key % self.size
+
+    def add(self, key):
+        # 在集合中添加key，如果当前集合存在key，忽略此次add()操作
+        index = self.hash(key)
+        if not self.find(key):
+            self.list[index].append(val=key)
+
+    def find(self, key):
+        # 返回当前key在列表中的index和所在链表的index
+        index = self.hash(key)
+        return self.list[index].findNode(val=key)
+
+    def remove(self, key):
+        # 如果key存在，就移除hash集合中的key，并返回元素在当前链表中的index
+        index = self.hash(key)
+        return self.list[index].delete(val=key)
+
+    def print(self, val=-1, index=-1):
+        # 默认打印整个hash集合，如果有index，优先打印index，否则打印val
+        if index == -1:
+            if val == -1:
+                for linkedList in self.list:
+                    linkedList.print()
+            index = self.hash(val)
+            self.list[index].print()
+        else:
+            self.list[index].print()
+            
+            
+hashset = Hashset()
+for i in range(1000):
+    hashset.add(i)
+print(hashset.find(100))
+hashset.remove(128)
+print(hashset.find(128))
+hashset.print()
+hashset.print(index=5)
+hashset.print(99)
