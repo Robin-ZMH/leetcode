@@ -1,0 +1,35 @@
+class Solution:
+    # 快慢指针
+    def reverseWords(self, s: str) -> str:
+        def removeExtraSpace(s):
+            # 移除开头的空格
+            index = 0
+            while index < len(s) and s[index] == ' ': 
+                index += 1
+            s = s[index:]
+            # 移除结尾的空格
+            last = len(s) - 1
+            while last >= 0 and s[last] == ' ':
+                last -= 1
+            s = s[: last+1]
+            # 移除中间多余的空格
+            res = []
+            for i in range(len(s)):
+                if i > 0 and s[i-1] == ' ' and s[i] == ' ':
+                    continue
+                else:
+                    res.append(s[i])
+            return res
+        res = removeExtraSpace(s)
+        res = res[::-1]
+        slow = 0
+        for fast in range(len(res)):
+            if res[fast] == ' ':
+                temp = res[slow: fast]
+                res[slow: fast] = temp[::-1]
+                slow = fast + 1
+            if fast == len(res) - 1:
+                temp = res[slow:]
+                res[slow:] = temp[::-1]
+                slow = fast + 1
+        return ''.join(res)
