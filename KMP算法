@@ -1,0 +1,33 @@
+def kmp(str1, str2):
+    def getNext(string):
+        if len(string) == 1:
+            return [-1]
+        res = [-1 for _ in range(len(string))]
+        res[1] = 0
+        cur = 0
+        index = 2
+        while index < len(string):
+            if string[cur] == string[index-1]:
+                res[index] = cur + 1
+                index += 1
+                cur += 1
+            elif res[cur] == -1:
+                res[index] = 0
+                index += 1
+            else:
+                cur = res[cur]
+        return res
+
+    next_arr = getNext(str2)
+    index1 = 0
+    index2 = 0
+    while index1 < len(str1) and index2 < len(str2):
+        if str2[index2] == str1[index1]:
+            index1 += 1
+            index2 += 1
+        elif next_arr[index2] == -1:
+            index1 += 1
+        else:
+            index2 = next_arr[index2]
+    return index1 - index2 if index2 == len(str2) else -1
+    
