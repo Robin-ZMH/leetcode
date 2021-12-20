@@ -1,0 +1,12 @@
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        stack = list()
+        hashset = {'+', '-', '*', '/'}
+        for item in tokens:
+            if item not in hashset:
+                stack.append(item)
+            else:
+                a, b = stack.pop(), stack.pop()
+                res = eval(f'{b} {item} {a}')
+                stack.append(int(res))
+        return int(stack.pop())
