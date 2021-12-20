@@ -1,0 +1,16 @@
+class Solution:
+    def isValid(self, s: str) -> bool:
+        hashtable = {
+                    '(':')' ,
+                    '[':']' ,
+                    '{':'}'
+                            }
+        stack = []
+        for bracket in s:
+            if bracket in hashtable :
+                stack.append(bracket)
+            elif stack and bracket == hashtable.get(stack.pop()):     
+                continue
+            else:
+                return False
+        return not stack
