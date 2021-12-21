@@ -1,0 +1,62 @@
+class Heap:
+    def __init__(self):
+        self.size = 0
+        self.list = []
+
+    def isvalid(self, index):
+        return True if 0 <= index < self.size else False
+
+    def getParent(self, index):
+        parent = (index - 1) >> 1
+        return parent if self.isvalid(parent) else -1
+
+    def getLeftChild(self, index):
+        child = 2 * index + 1
+        return child if self.isvalid(child) else 0
+
+    def heapifyUp(self):
+        # 向上调整
+        child = self.size - 1
+        parent = self.getParent(child)
+        while self.isvalid(parent):
+            if self.list[child] < self.list[parent]:
+                self.list[child], self.list[parent] = self.list[parent], self.list[child]
+                child = parent
+                parent = self.getParent(child)
+            else:
+                break
+
+    def heapifyDown(self):
+        # 向下调整
+        parent = 0
+        child = self.getLeftChild(parent)
+        while child:
+            if self.isvalid(child+1) and self.list[child+1] < self.list[child]:
+                child += 1
+            if self.list[child] < self.list[parent]:
+                self.list[child], self.list[parent] = self.list[parent], self.list[child]
+                parent = child
+                child = self.getLeftChild(parent)
+            else:
+                break
+
+    def append(self, val):
+        # append要自底向上调整
+        self.list.append(val)
+        self.size += 1
+        self.heapifyUp()
+
+    def peek(self):
+        return self.list[0]
+
+    def pop(self):
+        # pop后要自顶向下调整
+        self.list[0], self.list[-1] = self.list[-1], self.list[0]
+        res = self.list.pop()
+        self.size -= 1
+        self.heapifyDown()
+        return res
+
+    def print(self):
+        print(self.list)
+        
