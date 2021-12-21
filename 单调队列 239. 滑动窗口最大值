@@ -1,0 +1,16 @@
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        res = []
+        queue = collections.deque()
+        for i in range(len(nums)):
+            # 进入单调队列前判断队列尾部是否合法
+            while queue and nums[i] > queue[-1]:
+                queue.pop()
+            queue.append(nums[i])
+            # 如果窗口长度够了就产生一个结果
+            if i >= k-1:
+                res.append(queue[0])
+                # 因为已经利用完顶部信息了，可以在 i == k-1 时提前弹出
+                if queue[0] == nums[i-k+1]:
+                    queue.popleft()
+        return res
