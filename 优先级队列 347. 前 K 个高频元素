@@ -1,0 +1,17 @@
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        hashmap = dict()
+        for num in nums:
+            hashmap[num] = hashmap.get(num, 0) + 1
+
+        heap = []
+        for key, freq in hashmap.items():
+            heapq.heappush(heap, (freq, key))
+            if len(heap) > k:
+                heapq.heappop(heap)
+
+        res = []
+        for _ in range(len(heap)):
+            temp = heap.pop()
+            res.append(temp[1])
+        return res
