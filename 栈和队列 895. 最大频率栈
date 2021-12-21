@@ -1,0 +1,30 @@
+class FreqStack:
+
+    def __init__(self):
+        self.hashmap = dict()
+        # 二维列表充当哈希链表
+        self.freq = [[]]
+        self.maxFreq = 0
+
+    def push(self, val: int) -> None:
+        self.hashmap[val] = self.hashmap.get(val, 0) + 1
+        if self.hashmap[val] > self.maxFreq:
+            self.maxFreq = self.hashmap[val]
+            # 增加新列表项
+            self.freq.append([])  
+        # freq中保存下标
+        self.freq[self.hashmap[val]].append(val)
+
+    def pop(self) -> int:
+        val = self.freq[self.maxFreq].pop()
+        # 更新哈希表
+        self.hashmap[val] -= 1
+        # 判断是否需要更新maxFreq
+        if self.freq[self.maxFreq] == []:
+            self.maxFreq -= 1
+        return val
+
+# Your FreqStack object will be instantiated and called as such:
+# obj = FreqStack()
+# obj.push(val)
+# param_2 = obj.pop()
