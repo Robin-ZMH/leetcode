@@ -1,0 +1,48 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+
+class Solution:
+    # 广度优先遍历
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return 
+        queue = deque([root])
+        while queue:
+            length = len(queue)
+            for i in range(length):
+                node = queue.popleft()
+                if i < length - 1:
+                    node.next = queue[0]
+                if node.left: queue.append(node.left)
+                if node.right: queue.append(node.right)
+        return root
+        
+        
+    # 常量空间复杂度 
+    def connect(self, root: 'Node') -> 'Node':
+        first = root
+        while first:
+            # 虚拟头尾节点
+            fake_head = Node()
+            fake_tail = fake_head
+            cur = first
+            # 遍历这一层节点
+            while cur:
+                # 将这一层的每个节点的 子节点 连接起来
+                if cur.left:
+                    fake_tail.next = cur.left
+                    fake_tail = fake_tail.next
+                if cur.right:
+                    fake_tail.next = cur.right
+                    fake_tail = fake_tail.next
+                cur = cur.next
+            # fake_head.next自动变为下一行的最左侧节点
+            first = fake_head.next
+        return root
