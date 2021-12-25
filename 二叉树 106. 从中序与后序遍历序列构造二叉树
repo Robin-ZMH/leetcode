@@ -1,0 +1,23 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
+        def process(in_left, in_right, post_left, post_right):
+            if post_left > post_right:
+                return None
+            val = postorder[post_right]
+            index = hashmap[val]
+            # 求一个相对长度
+            length = index - in_left - 1
+            root = TreeNode(val=val)
+            root.left = process(in_left, index-1, post_left, post_left+length)
+            root.right = process(index+1, in_right, post_left+length+1, post_right-1)
+            return root
+
+        hashmap = {val: index for index, val in enumerate(inorder)}
+        n = len(inorder)
+        return process(0, n-1, 0, n-1)
