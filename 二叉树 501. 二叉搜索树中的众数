@@ -1,0 +1,38 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def __init__(self):
+        self.pre = None
+        self.list = []
+        self.count = 0
+        self.max = 0
+    
+    def helper(self, root):
+        if not root:
+            return
+
+        self.helper(root.left)
+
+        if self.pre == None:
+            self.count = 1
+        elif self.pre.val == root.val:
+            self.count += 1
+        else:
+            self.count = 1
+        self.pre = root
+        if self.count == self.max:
+            self.list.append(root.val)
+        elif self.count > self.max:
+            self.list.clear()
+            self.list.append(root.val)
+            self.max = self.count
+        
+        self.helper(root.right)
+    
+    def findMode(self, root: TreeNode) -> List[int]:
+        self.helper(root)
+        return self.list
