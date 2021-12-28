@@ -1,0 +1,23 @@
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        def process(start, tickets_dict, path):
+            if start not in tickets_dict or not tickets_dict[start]:    
+                return True if len(path) == len(tickets) + 1 else False
+            tickets_dict[start].sort()
+            for _ in tickets_dict[start]:
+                end = tickets_dict[start].pop(0)
+                path.append(end)
+                if process(end, tickets_dict, path):
+                    return True
+                path.pop()
+                tickets_dict[start].append(end)
+    
+        tickets_dict = dict()
+        for item in tickets:
+            if item[0] in tickets_dict: 
+                tickets_dict[item[0]].append(item[1])
+            else:
+                tickets_dict[item[0]] = [item[1]]
+        res = ['JFK']
+        process('JFK', tickets_dict, res)
+        return res
