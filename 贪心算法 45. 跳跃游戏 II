@@ -1,0 +1,15 @@
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        max_cover = 0
+        cur_cover = 0
+        step = 0
+        for index in range(len(nums) - 1):
+            cur_cover = max(cur_cover, index + nums[index] )
+                
+            if index == max_cover:
+                max_cover = cur_cover
+                step += 1
+                if max_cover >= len(nums) - 1:
+                    return step
+                
+        return step
