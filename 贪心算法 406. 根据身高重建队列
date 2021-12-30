@@ -1,0 +1,8 @@
+class Solution:
+    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+        # 当数据有两个维度时，先确定一个维度，在搞定另一个维度
+        people.sort(key=lambda x: (-x[0], x[1]))
+        queue = []
+        for p in people:
+            queue.insert(p[1], p)
+        return queue
