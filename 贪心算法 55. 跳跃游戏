@@ -1,0 +1,7 @@
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        cover = 0
+        for index in range(len(nums) - 1):
+            if index <= cover:
+                cover = max(cover, index + nums[index]) 
+        return cover >= len(nums) - 1
