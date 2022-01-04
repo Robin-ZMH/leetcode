@@ -1,0 +1,53 @@
+class Solution:
+    """暴力递归"""
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        def process(m, n):
+            if m < 0 or n < 0:
+                return 0
+            if m == 0 and n == 0:
+                return 1
+            if obstacleGrid[m][n] == 1:
+                return 0
+            return process(m-1, n) + process(m, n-1)
+        m = len(obstacleGrid) - 1
+        n = len(obstacleGrid[0]) - 1
+        return process(m, n)
+        
+        
+class Solution:
+    """树形dp"""
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        def process(m, n):
+            if m < 0 or n < 0:
+                return 0
+            if obstacleGrid[m][n] == 1:
+                return 0
+            if m == 0 and n == 0:
+                return 1
+            if (m, n) in dp:
+                return dp[(m, n)]
+            res = process(m-1, n) + process(m, n-1)
+            dp[(m, n)] = res
+            return res
+
+        dp = dict()
+        m = len(obstacleGrid) - 1
+        n = len(obstacleGrid[0]) - 1
+        return process(m, n)
+        
+        
+class Solution:
+    """动态规划"""
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        m = len(obstacleGrid)
+        n = len(obstacleGrid[0]) 
+        dp = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+        dp[0][0] = 1 if obstacleGrid[0][0] == 0 else 0
+        for i in range(m):
+            for j in range(n):
+                if i == 0 and j == 0: continue
+                if obstacleGrid[i][j] == 1:
+                    dp[i][j] = 0
+                else:
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1]
+        return dp[m-1][n-1]
