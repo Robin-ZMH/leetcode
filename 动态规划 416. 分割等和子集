@@ -1,0 +1,46 @@
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        def process(index, sum_):
+            if index < 0: return False
+            if sum_ < 0: return False
+            if sum_ == 0: return True
+            return process(index-1, sum_) or process(index-1, sum_-nums[index])
+        if sum(nums) % 2 == 0:
+            return process(len(nums)-1, sum(nums)//2)
+        return False
+        
+        
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        def process(index, sum_):
+            if index < 0: return False
+            if sum_ < 0: return False
+            if sum_ == 0: return True
+            if (index, sum_) in dp:
+                return dp[(index, sum_)]
+            res = process(index-1, sum_) or process(index-1, sum_-nums[index])
+            dp[(index, sum_)] = res
+            return res
+        sum_ = sum(nums)   
+        if sum_ % 2 == 0:
+            dp = dict()
+            return process(len(nums)-1, sum_//2)
+        return False
+        
+        
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        target = sum(nums)   
+        if target % 2 == 0:
+            dp = [[False for _ in range(target//2 + 1)] for _ in range(len(nums))]
+            for i in range(len(dp)):
+                dp[i][0] = True
+            for index in range(1, len(dp)):
+                for sum_ in range(len(dp[0])):
+                    if sum_ - nums[index] >= 0:
+                        res = dp[index-1][sum_] or dp[index-1][sum_-nums[index]]
+                    else:
+                        res = dp[index-1][sum_]
+                    dp[index][sum_] = res
+            return dp[len(nums)-1][target//2]
+        return False
