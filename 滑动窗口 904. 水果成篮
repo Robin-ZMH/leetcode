@@ -1,0 +1,20 @@
+class Solution:
+    def totalFruit(self, fruits: List[int]) -> int:
+        #使用list(typ)做哈希表，种类不可能大于len(fruits)
+        res = float('-inf')
+        typ = [0] * len(fruits)
+        count = 0
+        left = 0
+        for right in range(len(fruits)):
+            if typ[fruits[right]] == 0:
+                count += 1
+            typ[fruits[right]] += 1
+
+            while count > 2:
+                if typ[fruits[left]] == 1:
+                    count -= 1
+                typ[fruits[left]] -= 1
+                left += 1
+            # 调整完窗口后再更新res,因为一定有count<=2
+            res = max(res, right-left+1)
+        return res
