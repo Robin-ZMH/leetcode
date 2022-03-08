@@ -1,30 +1,27 @@
 class Solution:
-    """DFS"""
-    def solve(self, board: List[List[str]]) -> None:  
-        def findSurrounded(board, row, col):
-            """如果当前格子是O，将其坐标放入集合res中"""
-            if row == 0 or row == length or col == 0 or col == height:
-                if board[row][col] == 'O':
-                    # 如果查找到边界为O，那么与其相连的都不是被包围的，将flag设为false
-                    flag.append('False')
+    def solve(self, board: List[List[str]]) -> None:
+        n, m = len(board), len(board[0])
+        def dfs(x, y):
+            if not 0 <= x < n or not 0 <= y < m or board[x][y] != 'O':
                 return
-            if (row, col) in res:
-                return
-            if board[row][col] == 'O':
-                res.add((row, col))
-                findSurrounded(board, row-1, col)
-                findSurrounded(board, row+1, col)
-                findSurrounded(board, row, col-1)
-                findSurrounded(board, row, col+1)
-
-        length = len(board) - 1
-        height = len(board[0]) - 1
-        for row in range(1, length):
-            for col in range(1, height):
-                res = set()
-                flag = []
-                if board[row][col] == 'O':
-                    findSurrounded(board, row, col)
-                    if not flag:
-                        for (x, y) in res:
-                            board[x][y] = 'X'
+            board[x][y] = "A"
+            dfs(x + 1, y)
+            dfs(x - 1, y)
+            dfs(x, y + 1)
+            dfs(x, y - 1)
+        # 将处于边界的'O'和与其相连接的所有'O'设为'A'
+        # 上下两条边
+        for i in range(n):
+            dfs(i, 0)
+            dfs(i, m - 1)
+        # 左右两条边
+        for i in range(m - 1):
+            dfs(0, i)
+            dfs(n - 1, i)
+        # 剩下的'O'必然被'X'包裹，因为无法从边界出发找到它们
+        for i in range(n):
+            for j in range(m):
+                if board[i][j] == "A":
+                    board[i][j] = "O"
+                elif board[i][j] == "O":
+                    board[i][j] = "X"
