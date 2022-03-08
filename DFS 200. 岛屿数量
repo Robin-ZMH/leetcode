@@ -1,7 +1,7 @@
 class Solution:
     """DFS"""
     def numIslands(self, grid: List[List[str]]) -> int:
-        def method(grid, row, col):
+        def setZero(grid, row, col):
             if row < 0 or row >= length or col < 0 or col >= height:
                 return 
             if grid[row][col] == '1':
