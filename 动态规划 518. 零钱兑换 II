@@ -1,0 +1,32 @@
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        def process(index, amount):
+            if (index, amount) in memo:
+                return memo[(index, amount)]
+            if index >= len(coins): return 0
+            if amount < 0: return 0
+            if amount == 0: return 1
+            res = process(index, amount-coins[index]) + process(index+1, amount)
+            memo[(index, amount)] = res
+            return res
+
+        memo = dict()
+        return process(0, amount)
+        
+             
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        m, n = amount, len(coins)
+        dp = [[0 for _ in range(n + 1)] for _ in range(m + 1)]
+
+        for i in range(n + 1):
+            dp[m][i] = 1
+
+        for i in reversed(range(m)):
+            for j in reversed(range(n)):
+                if i + coins[j] > amount:
+                    dp[i][j] = dp[i][j+1]
+                else:
+                    dp[i][j] = dp[i][j+1] + dp[i + coins[j]][j]
+
+        return dp[0][0]
