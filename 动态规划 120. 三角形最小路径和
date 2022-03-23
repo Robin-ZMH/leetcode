@@ -1,0 +1,29 @@
+class Solution:
+    def minimumTotal(self, A: List[List[int]]) -> int:
+        m, n = len(A), len(A[-1])
+        dp = [[0 for _ in range(n+1)] for _ in range(m+1)]
+
+        for i in reversed(range(m)):
+            for j in reversed(range(len(A[i]))):
+                if i == m-1:
+                    dp[i][j] = A[i][j] 
+                    continue
+                dp[i][j] = min(dp[i+1][j], dp[i+1][j+1]) + A[i][j]
+
+        return dp[0][0]
+        
+        
+class Solution:
+    def minimumTotal(self, A: List[List[int]]) -> int:
+        m, n = len(A), len(A[-1])
+
+        dp = [0 for _ in range(n)]
+
+        for i in reversed(range(m)):
+            for j in range(len(A[i])):
+                if i == m-1:
+                    dp[j] = A[i][j] 
+                    continue
+                dp[j] = min(dp[j], dp[j+1]) + A[i][j]
+                
+        return dp[0]
